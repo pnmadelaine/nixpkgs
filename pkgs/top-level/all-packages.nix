@@ -6555,7 +6555,7 @@ with pkgs;
       # Returns a true if the builder's rustc was built with support for the target.
       targetAlreadyIncluded = lib.elem stdenv.hostPlatform.rust.rustcTarget
         (lib.splitString "," (lib.removePrefix "--target=" (
-          lib.elemAt (lib.filter (f: lib.hasPrefix "--target=" f) pkgsBuildBuild.rustc.unwrapped.configureFlags) 0
+          lib.findFirst (lib.hasPrefix "--target=") "" pkgsBuildBuild.rustc.unwrapped.configureFlags
         )));
     in
     callPackage ../build-support/rust/build-rust-crate ({ } // lib.optionalAttrs (stdenv.hostPlatform.libc == null) {
